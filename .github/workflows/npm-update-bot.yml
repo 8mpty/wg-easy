@@ -10,9 +10,13 @@ jobs:
   npmupbot:
     name: NPM Update Bot 🤖
     runs-on: ubuntu-latest
+    if: github.repository_owner == 'wg-easy'
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          repository: wg-easy/wg-easy
+          ref: master
       - name: Setup Node
         uses: actions/setup-node@v4
         with:
@@ -31,8 +35,9 @@ jobs:
           cd src
           ncu -u
           npm update
+          npm run buildcss
           git config --global user.name 'NPM Update Bot'
           git config --global user.email 'npmupbot@users.noreply.github.com'
           git add .
           git commit -am "npm: package updates" || true
-          git push || true
+          git push

@@ -6,7 +6,7 @@ FROM docker.io/library/node:18-alpine AS build_node_modules
 # Copy Web UI
 COPY src/ /app/
 WORKDIR /app
-RUN npm ci
+RUN npm ci --omit=dev
 
 # Copy build result to a new image.
 # This saves a lot of disk space.
@@ -26,7 +26,7 @@ RUN mv /app/node_modules /node_modules
 RUN npm i -g nodemon
 
 # Install Linux packages
-RUN apk add -U --no-cache \
+RUN apk add --no-cache \
     dpkg \
     dumb-init \
     iptables \
